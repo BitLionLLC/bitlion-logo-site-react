@@ -31,3 +31,31 @@ video {
   top: -200px;
   left: 0;
 }
+
+.App {
+  text-align: center;
+  position: relative;
+  min-height: 100vh;
+}
+
+.support-nav {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+}
+
+.support-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #33F0CE;
+  color: #000;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.support-link:hover {
+  background-color: #2cd9b9;
+}
