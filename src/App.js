@@ -1,11 +1,19 @@
 import logoGif from './assets/logo.gif';
-import { useRef } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { useRef, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import './App.css';
 import Support from './components/Support';
 
 function App() {
   const pathRef = useRef(null);
+
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll);
+    let path = pathRef.current;
+    path.style.display = 'none';
+
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const onScroll = () => {
     const path = pathRef.current;
@@ -35,12 +43,23 @@ function App() {
     </>
   );
 
+  const Navigation = () => {
+    const location = useLocation();
+    return (
+      <nav className="support-nav" style={{ position: "fixed"}}>
+        {location.pathname === '/support' ? (
+          <Link to="/" className="support-link">Home</Link>
+        ) : (
+          <Link to="/support" className="support-link">App Store Support</Link>
+        )}
+      </nav>
+    );
+  };
+
   return (
     <Router>
       <div className="App">
-        <nav className="support-nav" style={{ position: "fixed"}}>
-          <Link to="/support" className="support-link">App Store Support</Link>
-        </nav>
+        <Navigation />
         <Routes>
           <Route path="/" element={<MainContent />} />
           <Route path="/support" element={<Support />} />
