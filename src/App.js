@@ -4,13 +4,31 @@ import './App.css';
 
 function App() {
   const pathRef = useRef(null);
+  const videoRef = useRef(null);
 
   useEffect(() => {
     window.addEventListener('scroll', onScroll);
     let path = pathRef.current;
     path.style.display = 'none';
 
-    return () => window.removeEventListener('scroll', onScroll)
+    // Error handling for video
+    const video = videoRef.current;
+    if (video) {
+      video.addEventListener('error', (e) => {
+        console.error('Error loading video:', e);
+      });
+    }
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      // Cleanup video listeners
+      if (video) {
+        video.removeEventListener('error', () => {});
+        video.pause();
+        video.src = '';
+        video.load();
+      }
+    }
   }, [])
 
   const onScroll = () => {
@@ -30,8 +48,9 @@ function App() {
 
   return (
     <div className="App">
-      <video width="100%" height="100%" loop muted autoPlay>
+      <video ref={videoRef} width="100%" height="100%" loop autoPlay playsInline muted>
         <source src={logoVideo} type="video/mp4" />
+        Your browser does not support the video tag.
       </video>
       <div className="line-container">
         <svg viewBox="0 0 112 1211" fill="none" preserveAspectRatio="xMidYMax meet">
