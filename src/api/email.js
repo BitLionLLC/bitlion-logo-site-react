@@ -1,4 +1,4 @@
-const MAILERSEND_API_URL = '/v1/email';
+const MAILERSEND_API_URL = 'https://api.mailersend.com/v1/email';
 
 export async function sendSupportEmail(formData) {
   const { name, email, subject, message } = formData;
