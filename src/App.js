@@ -3,6 +3,7 @@ import { useRef, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import './App.css';
 import Support from './components/Support';
+import Apps from './components/Apps';
 
 function App() {
   const pathRef = useRef(null);
@@ -10,7 +11,7 @@ function App() {
   useEffect(() => {
     window.addEventListener('scroll', onScroll);
     let path = pathRef.current;
-    path.style.display = 'none';
+    path && (path.style.display = 'none');
 
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -48,9 +49,21 @@ function App() {
     return (
       <nav className="support-nav" style={{ position: "fixed"}}>
         {location.pathname === '/support' ? (
-          <Link to="/" className="support-link">Home</Link>
-        ) : (
-          <Link to="/support" className="support-link">App Store Support</Link>
+          <div className='nav-container'>
+            <Link to="/apps" className="support-link">Our Apps</Link>
+            <Link to="/" className="support-link">Home</Link>
+          </div>
+        ) : 
+        location.pathname === '/apps' ? (
+          <div className='nav-container'>
+            <Link to="/" className="support-link">Home</Link>
+            <Link to="/support" className="support-link">App Store Support</Link>
+          </div>
+        ) :(
+          <div className='nav-container'>
+            <Link to="/apps" className="support-link">Our Apps</Link>
+            <Link to="/support" className="support-link">App Store Support</Link>
+          </div>
         )}
       </nav>
     );
@@ -63,6 +76,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainContent />} />
           <Route path="/support" element={<Support />} />
+          <Route path="/apps" element={<Apps />} />
         </Routes>
       </div>
     </Router>
